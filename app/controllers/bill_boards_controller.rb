@@ -18,4 +18,18 @@ class BillBoardsController < ApplicationController
     @billboard = BillBoard.find(params[:id])
     render component: 'BillBoardEdit', props: { billboard: @billboard }
   end
+
+  def create
+    @billboard = BillBoard.new(billboard_params)
+    if @billboard.save
+      redirect_to bill_boards_path
+    else
+      render component: 'BillBoardNew', props: { billboard: @billboard }
+    end
+  end
+
+  private
+    def billboard_params
+      params.require(:billboard).permit(:title, :img)
+    end
 end
